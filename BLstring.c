@@ -54,7 +54,20 @@ void blstr_init(BLString *T) {
     T->tail = NULL;
 }
 
+
 bool blstr_substr(BLString src, int pos, int len, BLString *sub) {
-
-
+    if (pos < 0 || len < 0 || pos + len > src.len) return false;
+    sub->len = len;
+    Block  *p = src.head;
+    for (int i = 0; i < pos; i++) {
+        if (p->next == NULL) return false;
+        p = p->next;
+    }
+    sub->head = p;
+    for (int i = 0; i < len - 1; i++) {
+        if (p->next == NULL) return false;
+        p = p->next;
+    }
+    sub->tail = p;
+    return true;
 }
